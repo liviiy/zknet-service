@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+    <Properties>
+        <Property name="logPattern">%d{yyyy-MM-dd HH:mm:ss} ${hostName}  [%t] [ %-5p ] %c{1.}:%L - %m%n</Property>
+        <Property name="rollingPattern">_%d{yyyyMMdd}</Property>
+        <Property name="logDir">/logs/gateway_test</Property>
+        <!--<Property name="logFileMaxSize">500 MB</Property>-->
+        <Property name="retainDuration">30d</Property>
+    </Properties>
+    <!--定义appender-->
+    <appenders>
+        <!--控制台-->
+        <console name="consoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${logPattern}"/>
+        </console>
+        <RollingFile name="allAppender" fileName="${logDir}/gateway_all.log"
+                     filePattern="${logDir}/gateway_all${rollingPattern}.log.gz">
+            <PatternLayout pattern="${logPattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!--<SizeBasedTriggeringPolicy size="${logFileMaxSize}"/>-->
+            </Policies>
+            <!-- 超过logFileMaxSize*7(默认)或者超过retainDuration会被删除 -->
+            <DefaultRolloverStrategy>
+                <Delete basePath="${logDir}">
+                    <IfFileName glob="gateway_all*.log.gz">
+                        <IfLastModified age="${retainDuration}"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <!-- debug日志appender -->
+        <RollingFile name="debugAppender" fileName="${logDir}/gateway_debug.log"
+                     filePattern="${logDir}/gateway_debug${rollingPattern}.log.gz">
+            <PatternLayout pattern="${logPattern}"/>
+            <Filters>
+                <!-- INFO以及以上DENY，以下进入下一个Filter -->
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <!-- DEBUG以上打印日志 -->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"  modulate="true"/>
+                <!--<SizeBasedTriggeringPolicy size="${logFileMaxSize}"/>-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${logDir}">
+                    <IfFileName glob="gateway_debug*.log.gz">
+                        <IfLastModified age="${retainDuration}"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <!-- info日志appender -->
+        <RollingFile name="infoAppender" fileName="${logDir}/gateway_info.log"
+                     filePattern="${logDir}/gateway_info${rollingPattern}.log.gz">
+            <PatternLayout pattern="${logPattern}"/>
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"  modulate="true"/>
+                <!--<SizeBasedTriggeringPolicy size="${logFileMaxSize}"/>-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${logDir}">
+                    <IfFileName glob="gateway_info*.log.gz">
+                        <IfLastModified age="${retainDuration}"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <!-- error日志appender -->
+        <RollingFile name="errorAppender" fileName="${logDir}/gateway_error.log"
+                     filePattern="${logDir}/gateway_error${rollingPattern}.log.gz">
+            <PatternLayout pattern="${logPattern}"/>
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"  modulate="true"/>
+                <!--<SizeBasedTriggeringPolicy size="${logFileMaxSize}"/>-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${logDir}">
+                    <IfFileName glob="gateway_error*.log.gz">
+                        <IfLastModified age="${retainDuration}"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </appenders>
+    <!--定义logger-->
+    <loggers>
+        <root level="DEBUG">
+            <appender-ref ref="consoleAppender"/>
+            <appender-ref ref="allAppender"/>
+            <appender-ref ref="debugAppender"/>
+            <appender-ref ref="infoAppender"/>
+            <appender-ref ref="errorAppender"/>
+        </root>
+        <logger name="org.springframework" level="INFO"/>
+        <!--业务处理发生未知异常会由该类的 cach并打印异常，为了防止日志过多并自定义处理这个异常的打印，这里的打印取消，自定义InvocationListener然后打印异常信息-->
+        <logger name="org.springframework.remoting.support.RemoteInvocationTraceInterceptor" level="ERROR"/>
+<!--        <logger name="org.hibernate" level="INFO"/>-->
+<!--        <logger name="springfox" level="INFO"/>-->
+<!--        <logger name="org.apache.dubbo" level="INFO"/>-->
+        <logger name="io.netty" level="INFO"/>
+        <logger name="io.lettuce" level="INFO"/>
+        <logger name="com.googlecode.jsonrpc4j" level="INFO"/>
+        <logger name="com.zknet.api.mapper" level="TRACE"/>
+    </loggers>
+</configuration>
