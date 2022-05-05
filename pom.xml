@@ -29,7 +29,7 @@
         <springboot.starter.web.version>2.5.13</springboot.starter.web.version>
         <lombok.version>1.18.24</lombok.version>
         <jsonrpc4j.version>1.6</jsonrpc4j.version>
-        <mysql-connector-java.version>5.1.49</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <druid-spring-boot-starter.version>1.2.9</druid-spring-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
         <web3j-core.version>4.8.9</web3j-core.version>
