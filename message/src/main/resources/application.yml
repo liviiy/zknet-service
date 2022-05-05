@@ -1,6 +1,6 @@
 spring:
   application:
-    name: zknet
+    name: zknet-message
   profiles:
     active: @env@
     include: config-@env@,engine-@env@
@@ -8,4 +8,4 @@ spring:
 logging:
   config: classpath:log4j2-test.xml
 server:
-  port: 8088
+  port: 8099

@@ -2,28 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--namespace对应mapper接口所在的位置-->
-<mapper namespace="com.zknet.gateway.mapper.ZkNetL2TokenMapper">
-    <!--resultMap自定义结果映射规则-->
-    <resultMap id="BaseresultMap" type="com.zknet.gateway.entity.ZkNetL2Token">
+<mapper namespace="com.zknet.engine.mapper.ZkNetL2TokenMapper">
+    <resultMap id="BaseresultMap" type="com.zknet.engine.entity.ZkNetL2Token">
         <id column="id" property="id" jdbcType="BIGINT"></id>
         <result column="name" property="name" jdbcType="VARCHAR"></result>
         <result column="full_name" property="fullName" jdbcType="VARCHAR"></result>
         <result column="contract_address" property="contractAddress" jdbcType="VARCHAR"></result>
         <result column="type" property="type" jdbcType="VARCHAR"></result>
     </resultMap>
-    <!--定义经常重用到的sql片段，方便后面使用includ标签引用-->
     <sql id="BaseColumn">id,name,full_name,contract_address,type</sql>
     <sql id="InsertBaseColumn">name,full_name,contract_address,type</sql>
 
-    <!--useGeneratedKeys和keyProperty用于获取自增主键;-->
-    <insert id="addL2Token" parameterType="com.zknet.gateway.entity.ZkNetL2Token" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addL2Token" parameterType="com.zknet.engine.entity.ZkNetL2Token" useGeneratedKeys="true" keyProperty="id">
         insert into zknet_l2_token (<include refid="InsertBaseColumn"></include>)
         values (#{name},#{fullName},#{contractAddress},#{type})
     </insert>
 
-    <!--带动态sql，set标签为了去掉多余的逗号；useGeneratedKeys和keyProperty用于获取自增主键;-->
-    <update id="updateL2Token" parameterType="com.zknet.gateway.entity.ZkNetL2Token" useGeneratedKeys="true" keyProperty="id">
+    <update id="updateL2Token" parameterType="com.zknet.engine.entity.ZkNetL2Token" useGeneratedKeys="true" keyProperty="id">
         update zknet_l2_token
         <set>
             <if test="name!=null and name!='' ">name = #{name},</if>
@@ -34,15 +29,12 @@
         where id = #{id}
     </update>
 
-    <!--根据id 查询-->
     <select id="getById" resultMap="BaseresultMap">
         select <include refid="BaseColumn"></include>
         from zknet_l2_token where id = #{id}
     </select>
 
-    <!--拼接动态sql,进行多条件查询-->
-    <select id="getByConditionIf" parameterType="com.zknet.gateway.entity.ZkNetL2Token" resultMap="BaseresultMap" >
-        <!--include refid="BaseColumn" 用来引用sql片段 -->
+    <select id="getByConditionIf" parameterType="com.zknet.engine.entity.ZkNetL2Token" resultMap="BaseresultMap" >
         select <include refid="BaseColumn"></include>
         from zknet_l2_token
         <where>

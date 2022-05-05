@@ -7,6 +7,8 @@
 
         <module>gateway</module>
         <module>engine</module>
+        <module>zknet-config</module>
+        <module>message</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -30,10 +32,26 @@
         <mysql-connector-java.version>5.1.49</mysql-connector-java.version>
         <druid-spring-boot-starter.version>1.2.9</druid-spring-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
+        <web3j-core.version>4.8.9</web3j-core.version>
     </properties>
 
     <dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>com.zknet</groupId>
+            <artifactId>gateway</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zknet</groupId>
+            <artifactId>engine</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zknet</groupId>
+            <artifactId>zknet-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
@@ -82,6 +100,13 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis-spring-boot-starter.version}</version>
+        </dependency>
+
+        <!--web3j-->
+        <dependency>
+            <groupId>org.web3j</groupId>
+            <artifactId>core</artifactId>
+            <version>${web3j-core.version}</version>
         </dependency>
     </dependencies>
     </dependencyManagement>

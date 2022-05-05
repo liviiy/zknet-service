@@ -3,10 +3,10 @@
     <Properties>
         <Property name="logPattern">%d{yyyy-MM-dd HH:mm:ss} ${hostName}  [%t] [ %-5p ] %c{1.}:%L - %m%n</Property>
         <Property name="rollingPattern">_%d{yyyyMMdd}</Property>
-        <Property name="logDir">/logs/zknet</Property>
+        <Property name="logDir">/logs/message</Property>
         <!--<Property name="logFileMaxSize">500 MB</Property>-->
         <Property name="retainDuration">30d</Property>
-        <Property name="projName">zknet</Property>
+        <Property name="projName">message</Property>
     </Properties>
     <appenders>
         <console name="consoleAppender" target="SYSTEM_OUT">
@@ -31,7 +31,9 @@
                      filePattern="${logDir}/${projName}_debug${rollingPattern}.log.gz">
             <PatternLayout pattern="${logPattern}"/>
             <Filters>
+                <!-- INFO以及以上DENY，以下进入下一个Filter -->
                 <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <!-- DEBUG以上打印日志 -->
                 <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
             <Policies>
@@ -94,11 +96,10 @@
         </root>
         <logger name="org.springframework" level="INFO"/>
         <logger name="org.springframework.remoting.support.RemoteInvocationTraceInterceptor" level="ERROR"/>
-<!--        <logger name="org.hibernate" level="INFO"/>-->
-<!--        <logger name="springfox" level="INFO"/>-->
-<!--        <logger name="org.apache.dubbo" level="INFO"/>-->
+        <!--        <logger name="org.hibernate" level="INFO"/>-->
+        <!--        <logger name="springfox" level="INFO"/>-->
+        <!--        <logger name="org.apache.dubbo" level="INFO"/>-->
         <logger name="io.netty" level="INFO"/>
         <logger name="io.lettuce" level="INFO"/>
-        <logger name="com.googlecode.jsonrpc4j" level="INFO"/>
     </loggers>
 </configuration>

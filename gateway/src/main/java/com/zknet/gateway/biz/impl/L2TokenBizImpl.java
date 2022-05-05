@@ -1,10 +1,10 @@
 package com.zknet.gateway.biz.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zknet.engine.entity.ZkNetL2Token;
+import com.zknet.engine.service.ZkNetL2TokenService;
 import com.zknet.gateway.biz.L2TokenBiz;
-import com.zknet.gateway.entity.ZkNetL2Token;
 import com.zknet.gateway.jsonrpc.dto.ZkNetL2TokenDTO;
-import com.zknet.gateway.service.ZkNetL2TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * 约定：Biz类中不能注入Mapper类,只能注入Service类
+ * convention：Biz can not contains Mapper,only inject Service
  */
 @Service
 @Slf4j

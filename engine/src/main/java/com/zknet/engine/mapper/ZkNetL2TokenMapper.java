@@ -1,6 +1,6 @@
-package com.zknet.gateway.mapper;
+package com.zknet.engine.mapper;
 
-import com.zknet.gateway.entity.ZkNetL2Token;
+import com.zknet.engine.entity.ZkNetL2Token;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
